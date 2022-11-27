@@ -7,10 +7,16 @@ import { Adherent } from 'src/app/Model/adherent';
 })
 export class AdherentService {
 
-  private baseApiUrl ="https://localhost:5001/api/Adherents";
+  private baseApiUrl ="https://localhost:5001/api/Adherent";
   constructor(private httpClient : HttpClient) { }
 
   getAdherents():Observable<Adherent[]>{
   return  this.httpClient.get<Adherent[]>(this.baseApiUrl);
   }
+  
+  getAdherent(adherentId : string):Observable<Adherent>{
+    return  this.httpClient.get<Adherent>(this.baseApiUrl + "/"+ adherentId);
+    }
+  
+
 }

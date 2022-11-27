@@ -49,11 +49,13 @@ import { TopNavComponent } from './Layout/top-nav/top-nav.component';
 import { AdherentsComponent } from './Component/adherents/adherents.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { AdherentDetailsComponent } from './Component/adherent-details/adherent-details.component';
 @NgModule({
   declarations: [
     AppComponent,
     TopNavComponent,
-    AdherentsComponent
+    AdherentsComponent,
+    AdherentDetailsComponent
   ],
   imports: [
     FormsModule,

@@ -15,7 +15,8 @@ export class AdherentsComponent implements OnInit {
 
   adherents : Adherent[]=[];
   filterString="";
-  displayedColumns: string[] = ['firstName','lastName','dateOfBirth','gender','email','mobile'];
+  displayedColumns: string[] = ['firstName','lastName',
+  'dateOfBirth','gender','email','mobile','edit'];
   dataSource : MatTableDataSource<Adherent> = new MatTableDataSource<Adherent>() ;
   @ViewChild(MatPaginator) matPaginator!: MatPaginator;
   @ViewChild(MatSort) matSort!: MatSort;
