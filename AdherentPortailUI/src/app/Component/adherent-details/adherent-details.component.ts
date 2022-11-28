@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { Gender } from 'src/app/Model//ui-models/gender';
 import { Adherent } from 'src/app/Model/ui-models/adherent';
+import { GenderService } from 'src/app/Services/gender.service';
 import { AdherentService } from '../adherents/adherent.service';
 
 @Component({
@@ -29,8 +32,12 @@ export class AdherentDetailsComponent implements OnInit {
     postalAdresse: ''
    }
  }
+
+ genderList : Gender[] = [];
   constructor(private readonly adherentService : AdherentService,
-               private readonly route : ActivatedRoute) { }
+              private readonly genderService : GenderService,
+               private readonly route : ActivatedRoute,
+               private readonly snackbar : MatSnackBar) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(
@@ -43,8 +50,28 @@ export class AdherentDetailsComponent implements OnInit {
          this.adherent = successResponse;
         }
       );
+
+      this.genderService.getGenders().subscribe(
+        (successResponse)=>{
+            this.genderList = successResponse;
+         }
+      );
     }
     
+  }
+
+
+  onUpdate():void{
+    console.log(this.adherent)
+ // Call adherentService to update adherent
+   this.adherentService.updateAdherent(this.adherent.id,this.adherent).subscribe(
+    (sucessResponse)=> {
+      //Show a notification
+
+    }, (errorResponse)=>{
+      // Log it
+    }
+   )
   }
 
 }
