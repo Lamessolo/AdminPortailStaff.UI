@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import { Adherent } from 'src/app/Model/adherent';
+import { AddAdherent } from 'src/app/Model/ui-models/addAdherent';
 import { UpdateAdherent } from 'src/app/Model/ui-models/updateAdherent';
 @Injectable({
   providedIn: 'root'
@@ -35,5 +36,19 @@ export class AdherentService {
     return this.httpClient.put<Adherent>(this.baseApiUrl+"/"+adherentId,updateAdherent);
   }
   
+  addAdherent(newAdherent : Adherent):Observable<Adherent>{
+    const addAdherent : AddAdherent ={
 
+      firstName : newAdherent.firstName,
+      lastName : newAdherent.lastName,
+      dateOfBirth : newAdherent.dateOfBirth,
+      email : newAdherent.email,
+      mobile : newAdherent.mobile,
+      genderId : newAdherent.genderId,
+      physicalAdresse : newAdherent.adresse.physicalAdresse,
+      postalAdresse :newAdherent.adresse.postalAdresse
+
+    }
+    return this.httpClient.post<Adherent>(this.baseApiUrl+"/add",addAdherent);
+  }
 }
