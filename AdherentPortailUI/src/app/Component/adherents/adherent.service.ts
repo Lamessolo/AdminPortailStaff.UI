@@ -51,4 +51,17 @@ export class AdherentService {
     }
     return this.httpClient.post<Adherent>(this.baseApiUrl+"/add",addAdherent);
   }
+
+  uploadImage(adherentId:string , file:File):Observable<any>{
+      const formData = new FormData();
+      formData.append("profileImage", file);
+    return  this.httpClient.post(this.baseApiUrl+ '/'+ adherentId+'/upload-image',
+          formData,{
+            responseType:'text'
+          });
+  }
+
+  getImagePath(relativePath: string){
+    return ` https://localhost:5001/${relativePath}`;
+  }
 }

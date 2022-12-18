@@ -8,7 +8,7 @@ export interface Adherent{
     lastName:string;
     mobile: number,
     email: string,
-    profileImageUrl:string,
+    profileImage:string,
     dateOfBirth:string,
     genderId:string,
     gender:Gender,

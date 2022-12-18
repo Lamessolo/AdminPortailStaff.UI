@@ -56,6 +56,7 @@ import { AdherentDetailsComponent } from './Component/adherent-details/adherent-
     TopNavComponent,
     AdherentsComponent,
     AdherentDetailsComponent
+    
   ],
   imports: [
     FormsModule,

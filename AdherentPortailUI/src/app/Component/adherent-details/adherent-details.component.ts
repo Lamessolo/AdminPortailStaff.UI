@@ -5,7 +5,6 @@ import { Gender } from 'src/app/Model//ui-models/gender';
 import { Adherent } from 'src/app/Model/ui-models/adherent';
 import { GenderService } from 'src/app/Services/gender.service';
 import { AdherentService } from '../adherents/adherent.service';
-
 @Component({
   selector: 'app-adherent-details',
   templateUrl: './adherent-details.component.html',
@@ -19,7 +18,7 @@ export class AdherentDetailsComponent implements OnInit {
    lastName: '',
    mobile: 0,
    email: '',
-   profileImageUrl: '',
+   profileImage: '',
    dateOfBirth: '',
    genderId: '',
    gender: {
@@ -34,11 +33,12 @@ export class AdherentDetailsComponent implements OnInit {
  }
  isNewAdherent = false;
  header ='';
+ displayProfileImageUrl='assets/staffboxe.png';
  genderList : Gender[] = [];
   constructor(private readonly adherentService : AdherentService,
               private readonly genderService : GenderService,
                private readonly route : ActivatedRoute,
-               private readonly router : Router,
+               private readonly router : Router,            
                private readonly snackbar : MatSnackBar) { }
 
   ngOnInit(): void {
@@ -49,21 +49,25 @@ export class AdherentDetailsComponent implements OnInit {
     if(this.adherentId){
       //Si la route contient "Add"
       
-      if(this.adherentId.toLocaleLowerCase() ==='add'.toLocaleLowerCase()){
+      if(this.adherentId.toLowerCase() ==='add'.toLowerCase()){
 // ==> news Adherent fonctionnalités
+          this.setImage();
           this.isNewAdherent =true;
           this.header ="Add new Adherent";
+          
       }else{
+      //  Existing Adherent functionnality
           this.isNewAdherent = false;
           this.header ="Edit Adherent";
           this.adherentService.getAdherent(this.adherentId).subscribe(
             (successResponse)=>{
              this.adherent = successResponse;
+             this.setImage();
+            },(errorResponse)=>{
+              this.setImage();
             }
           );
       }
-    
-
       this.genderService.getGenders().subscribe(
         (successResponse)=>{
             this.genderList = successResponse;
@@ -107,8 +111,34 @@ export class AdherentDetailsComponent implements OnInit {
         
       },
       (errorResponse)=>{
-
+             // Logs 
+             console.log(errorResponse);
       }
     );
+  }
+
+  uploadImage(event : any):void{
+      if(this.adherentId){
+        const file: File = event.target.files[0];
+        this.adherentService.uploadImage(this.adherent.id,file)
+        .subscribe((successResponse)=>{
+          this.adherent.profileImage = successResponse;
+          this.setImage();
+          //Show une notification
+          this.snackbar.open('Profile Image Updated', undefined,{duration:2000})
+        }) 
+      }
+  }
+
+  private setImage():void{
+if(this.adherent.profileImage){
+  // Fetch the image by url
+this.displayProfileImageUrl= 
+this.adherentService.getImagePath(this.adherent.profileImage);
+}
+else{
+  // display a default
+  this.displayProfileImageUrl;
+}
   }
 }
